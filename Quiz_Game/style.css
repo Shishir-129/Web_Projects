@@ -1,0 +1,274 @@
+/* Basic Reset */
+
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body {
+    background:#12172f;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:1rem;
+    font-family: sans-serif;
+}
+
+/*“Creates an extra invisible element before the content inside <body> — without writing any HTML.”
+            You didn't write this in HTML , CSS creates it virtually(without touching html)*/
+        body::before {   
+            content: ''; /*::before will NOT appear unless you use content:*/
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 183, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+.container{     /*Selects class 'container'*/
+    background-color: rgba(33, 36, 38, 0.94);
+    border-radius: 1.4rem;
+    box-shadow: 0 10px 30px rgba(21, 101, 121, 0.486); /* box means the entire container */
+    width:100%;
+    max-width: 650px;
+    border : 3px solid rgba(9, 56, 68, 0.486);
+    overflow:hidden;
+    position:relative;
+}
+
+/* A virtual decorative layer attached to that container
+It creates a FAKE / VIRTUAL element that appears before the container’s content.
+It only exists in CSS (not written in HTML).
+ */
+.container::before {
+            content: ''; /*This is mandatory. It creates the fake element.*/
+            position: absolute;
+            top: 0;
+            left: 0px;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                transparent,
+                #00b7ff,
+                #8a2be2,
+                #00b7ff,
+                transparent
+            );
+        }
+
+.screen{
+    display: none;
+    padding: 2rem;
+    text-align: center;
+}
+
+.screen.active{    /* The chained selector .screen.active acts as an override for the hidden state */
+    display: block;
+}
+
+/* START SCREEN */
+#start-screen {
+            padding: 4rem 2.5rem; /*vertical - horizontal */
+}
+
+#start-screen h1{  /* selects id */
+    font-family:'Gill Sans', 'Gill Sans MT','Trebuchet MS', sans-serif;
+    background: linear-gradient(135deg, #00b7ff, #8a2be2, #00ffff); /* Adds background behind text */
+    background-clip: text;  /* Cuts the background, only shows where the text is */
+    -webkit-text-fill-color: transparent; /* Makes actual text transparent, so background only shows */
+    margin-bottom: 20px;
+    font-size: 3rem;
+    font-weight: 900;  /* Thickening the text  */ 
+}
+
+#start-screen p{
+    color: #d8deebe0;
+    margin-bottom: 40px;
+    text-transform: uppercase; /* Uppercases the text */
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+.quiz-header{
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0, 183, 255, 0.2);
+}
+
+#question-text{
+    color:#fff8f8;
+    font-size:1.6rem;
+    font-weight: 400;
+    margin-bottom:2rem;
+    line-height:1.4;
+}
+
+.quiz-info{
+    display: flex;
+    justify-content: space-between;
+    color: #00b7ff;
+    font-size: 1rem;  /* by default its 1rem so its okay to not include it */
+    margin-bottom: 10px;
+}
+
+.quiz-info span{
+    color: #8a2be2;
+    font-size: 1.2rem;
+}
+
+.answers-container {
+    display: flex;
+    flex-direction: column;
+    gap :15px;
+    margin-bottom: 25px;
+}
+
+.answer-btn {
+    background: linear-gradient(135deg, rgba(15, 32, 66, 0.8), rgba(26, 43, 74, 0.8));
+    color: hsl(0, 0%, 100%);
+    font-weight: 300;
+    font-size: 1.3rem;
+    border:2px solid rgba(0, 183, 255, 0.3);;
+    border-radius: 15px;
+    padding: 1rem 1.5rem; /*vetical , horizontal*/
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.answer-btn:hover {   /* when we touch(hover) the button , its color changes */
+    background-color: #eadbc8;
+    border-color: #dac0ae;
+}
+
+.answer-btn.correct{ /* if the answer button is correct , it gives green feedback */
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 200, 100, 0.3));
+    border-color: #00ff88;
+    color: #00ff88;
+}
+
+.answer-btn.incorrect{ /* if the answer button is correct , it gives green feedback */
+    background: linear-gradient(135deg, rgba(255, 59, 92, 0.2), rgba(200, 20, 60, 0.3));
+    border-color: #ff3b5c;
+    color: #ff3b5c;
+}
+
+.progress-bar{
+    height: 12px;
+    background-color: #f8f0e5;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 20px;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/*
+DIRECTION OF GRADIENT
+0deg → top to bottom
+90deg → left to right
+135deg → top-left to bottom-right (diagonal)
+*/
+
+.progress{   /*this is dynamic */
+    height: 100%; /*take 100% of progress bar height */
+    background: linear-gradient(90deg, #00b7ff, #8a2be2, #00ffff); 
+    width: 0%;  /* initially its 0, then it progresses towards full */
+    transition: width 0.3s ease; /* transition will be implemented width wise , take 0.3sec to complete */
+}
+
+/* Result Screen */
+
+#result-screen h1{
+    background: linear-gradient(135deg, #00b7ff, #8a2be2, #00ffff); /* Adds background behind text */
+    background-clip: text;  /* Cuts the background, only shows where the text is */
+    -webkit-text-fill-color: transparent; /* Makes actual text transparent, so background only shows */
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    font-size: 3rem;
+}
+
+.result-info{
+    background: linear-gradient(0deg, rgba(0, 183, 255, 0.1), rgba(138, 43, 226, 0.1));;
+    border-radius: 10px;
+    padding: 30px 20px;
+    margin-bottom: 30px;
+}
+
+.result-info span{
+    color: #00b7ff;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.result-info p{
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+#result-message{
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00ffff, #00b7ff);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+button {
+    /*
+    background = background-color + gradient + many more features
+    */
+    background: linear-gradient(135deg, #00b7ff, #8a2be2); 
+    font-family: 'Orbitron';
+    color: white;
+    border: none;
+    border-radius: 13px;
+    padding:18px 45px;
+    font-size: 1.3rem;
+    font-family: 'Orbitron', sans-serif;  /* if Orbitron is not available in user device , use sans-serif */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #0090cc, #6a1fb8);
+    transform: translateY(-3px); /* Moves in Y direction */
+}
+
+/* Responsive Design */
+@media (max-width:500px){
+    /* When we hit 500px and below, implement the styles below */
+
+    .screen{
+        padding: 1rem;
+    }
+
+    #start-screen h1{
+        font-size: 2rem;
+    }
+
+    #question-text {
+        font-size: 1.3rem;
+    }
+
+    .answer-btn {
+        padding: 12px;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}

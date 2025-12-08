@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- 
+        We have three different screens : Start Screen , Quiz Screen , Result Screen
+        -->
+        <div class="screen active" id="start-screen">
+            <h1>QUIZ PROTOCOL</h1>
+            <p>Test your league with these questions</p>
+            <button id="start-btn">Launch Quiz</button>
+        </div>
+
+        <div class="screen" id="quiz-screen">
+
+            <div class="quiz-header">
+                <h2 id="question-text">--Questions Here--</h2>
+                <div class="quiz-info">
+                    <p>
+                        QUERY: <span id="current-question">1</span> / <span id="total-questions">&nbsp;5</span>
+                    </p>
+
+                    <p>
+                        SCORE: <span id="score">0</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="answers-container" id="answers-container">
+                <!--Answer buttons will be inserted here from our js code-->
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress" id="progress">
+                    <!--make a progress bar-->
+                </div>
+            </div>
+
+        </div>
+
+        <div class="screen" id="result-screen">
+            <h1>Quiz Results</h1>
+            <div class="result-info">
+                <p>
+                    FINAL SCORE: <span id="final-score">0</span> / <span id="max-score">&nbsp;5</span>
+                </p>
+                <div id="result-message">
+                    Good Job!
+                </div>
+            </div>
+            <button id="restart-btn">Restart Quiz</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
