@@ -1,0 +1,331 @@
+*{
+    margin:0; /* empty space outside the box,space btwn elements */
+    padding:0;  /* pillow inside the box , space btwn border and element*/
+    box-sizing: border-box;
+}
+
+body{
+    background: linear-gradient(135deg , #2e8b57 , #a8b5ba);
+    min-height: 100vh;
+    font-family: 'poppins','sans-serif';
+    display: flex;  /* flexible display , can put elements anywhere */
+    align-items: center; /* center vertically */
+    justify-content: center; /* center horizontally */
+    padding: 20px;
+    color: #2d3436
+}
+
+.container{
+    width: 100%;
+    max-width: 850px;
+    background-color: #fff;
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.20);
+}
+
+h1{
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color:#1a202c;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    
+    
+
+    /* to know which is h1 , use:
+    border:1px solid red; 
+    works for any element as a debugging tool*/;
+}
+
+h2{
+    color: #2d3748;
+    margin-bottom: 1rem; /* space below it */
+    font-size: 1.35rem;
+    font-weight: 500;
+}
+
+.balance-container{
+    text-align: center;
+    margin-bottom: 2.2rem;
+    background: linear-gradient(135deg, #a8d5ba , #6b8e23);
+    padding: 1.3rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+}
+
+.balance-container h1{
+    font-size: 3rem;
+    margin: 2px 0;
+    font-weight: 800;
+    color:#161716;
+}
+
+.summary{
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* two equal columns */
+    gap: 1.6rem; /* space between columns */
+    margin-top: 2rem;
+}
+
+.main-content{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6rem;
+}
+
+.income,.expenses{
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.income:hover,.expenses:hover{
+    transform: translateY(-2px);
+}
+
+.income h3{
+    color: #059669;
+    font-size: 1.1rem;
+    font-weight:600;
+}
+
+.expenses h3{
+    color: #dc2626;
+    font-size: 1.1rem;
+    font-weight:600;
+}
+
+.income p{
+    font-size: 1.75rem;
+    font-weight:700;
+    margin-top: 0.5rem;
+    color: #059669;
+}
+
+.expenses p{
+    font-size: 1.75rem;
+    font-weight:700;
+    margin-top: 0.5rem;
+    color: #dc2626;
+}
+
+.transaction-container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#transaction-list{
+    list-style: none;
+    max-height: 300px; /* set a max height  */
+    overflow-y: auto; /* scroll if exceeds max height */
+    padding-right: 8px; /* space for scrollbar */
+    flex-grow: 1;  /* take remaining space */ 
+}
+
+#transaction-list::-webkit-scrollbar{
+    width: 8px;
+}
+
+#transaction-list::-webkit-scrollbar-track{
+    /* track is the background of scrollbar */
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+#trasaction-list::-webkit-scrollbar-thumb{
+    /* thumb is the draggable part of scrollbar */
+    background-color: #7a8087;
+    border-radius: 4px;
+}
+
+#transaction-list::-webkit-scrollbar-thumb:hover{
+    background-color: #7a8087;
+}
+
+.transaction{
+    /* each transaction item */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-right: 5px solid;
+    transition: all 0.2s ease;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn{
+    from{
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to{
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+.transaction:hover{
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transform: translateX(4px);
+}
+
+.transaction.income{
+    border-right-color: #059669;
+}
+
+.transaction.expense{
+    border-right-color: #dc2626;
+}
+
+.transaction .delete-btn{
+    /* initially hidden delete button */
+    background: none;
+    border: none;
+    color: #dc2626;
+    cursor: pointer;
+    font-size: 1.4rem;
+    opacity: 0;
+    transition: all 0.2s ease;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-left: 12px;
+}
+
+.transaction:hover .delete-btn{
+    /* show delete button on hover */
+    opacity: 1;
+}
+
+.transaction .delete-btn:hover{
+    background-color:#fee2e2;
+    transform: scale(1.1);
+}
+
+.form-container{
+    background: linear-gradient(135deg,#f0fdf4, #e8f5e9);
+    padding: 1.6rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container form{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.form-group{
+    margin-bottom: 1.2rem;
+}
+
+label{
+    display:block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #4a5568;
+}
+
+input{
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background-color: white;
+}
+
+input:focus{
+    outline:none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+}
+
+input:hover{
+    border-color: #cbd5e0;
+}
+
+small{
+    color: #718096;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    display: block;
+}
+
+button[type="submit"]{
+    width: 100%;
+    padding: 0.8rem;
+    background: linear-gradient(135deg, #2e8b57 0%,#3cb371 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer; /* pointer cursor on hover */
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 20px rgba(102,126,234,0.2);
+    margin-top: auto; /* push button to bottom */
+}
+
+button[type="submit"]:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102,126,234,0.4);
+}
+
+button[type="submit"]:active{
+    /* on click */
+    transform: translateY(0);
+}
+
+/* responsive design for smaller screens */
+
+@media(max-width: 800px){
+    /* when screen width is less than 900px */
+    .main-content{
+        grid-template-columns: 1fr; /* single column layout */
+    }
+
+    #transaction-list{
+        max-height: 200px; /* reduce max height */
+    }
+}
+
+@media(max-width: 480px){
+    .container{
+        padding: 1rem;
+    }
+
+    .summary{
+        grid-template-columns: 1fr; /* single column for summary */
+        gap: 1rem;
+    }
+
+    .balance-container h1{
+        font-size: 2.5rem;
+    }
+
+    .income p, .expenses p{
+        font-size: 1.5rem;
+    }
+
+    .transaction{
+        padding: 0.8rem 1rem;
+    }
+
+    h1{
+        font-size: 1.8rem;
+    }
+}
