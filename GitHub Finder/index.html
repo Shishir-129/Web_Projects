@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git User Finder</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" 
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>
+                <i class="fab fa-github"></i>GitHub User Finder
+            </h1>
+            <p>Search for any github user to see their profile and repositories</p>
+        </header>
+        
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Enter GitHub username..."
+            autocomplete="off">
+            <button id="search-btn">Search</button>
+        </div>
+
+        <div id="profile-container" class="hidden"> <!-- hidden class to hide profile initially -->
+            <div class="profile-header">
+                <img src="" alt="Profile avatar" id="avatar">
+                <div class="profile-info">
+                    <h2 id="name"></h2>
+                    <p id="username"></p>
+                    <p id="bio"></p>
+                    
+                    <div class="location-date">
+                        <p>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="location">Not specified</span> 
+                        </p>
+
+                        <p>
+                            <i class="far fa-calendar-alt"></i>
+                            Joined
+                            <span id="joined-date"></span>
+                        </p>
+                    </div>
+                    <!-- target="_blank" opens link in new tab -->
+                    <a href="" target="_blank" id="profile-link" class="btn">View Profile</a> 
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <i class="fas fa-users"></i>
+                    <span id="followers">0</span> followers
+                </div>
+                <div class="stat">
+                    <i class="fas fa-user-friends"></i>
+                    <span id="following">0</span> following
+                </div>
+                <div class="stat">
+                    <i class="fas fa-code-branch"></i>
+                    <span id="repos">0</span> repositories
+                </div>
+            </div>
+
+            <div class="additional-info">
+                <div class="info-item" id="company-container">
+                    <i class="fas fa-building"></i>
+                    <span id="company">Not specified</span>
+                </div>
+                <div class="info-item" id="blog-container">
+                    <i class="fas fa-link"></i>
+                    <a href="" target="_blank" id="blog">Not specified</a>
+                </div>
+                <div class="info-item" id="twitter-container">
+                    <i class="fab fa-x-twitter"></i>
+                    <a href="" target="_blank" id="twitter">Not specified</a>
+                </div>
+            </div>
+
+            <div class="repos-section">
+                <h3>Latest Repositories</h3>
+                <div id="repos-container" class="repos-container">
+                    <!-- Repos will be dynamically added here -->
+
+                    <div class="loading-repos">Loading repositories...</div>
+                </div>
+            </div>
+    
+
+        </div>
+
+        <div id="error-container" class="hidden">
+            <p>User not found.Please try again.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
