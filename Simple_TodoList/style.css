@@ -1,0 +1,141 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.73);
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.title {
+    text-align: center;
+    color: rgb(98, 95, 95);
+    margin-bottom: 1.5rem;
+    font-size: 2.3rem;
+}
+
+.inputField {
+    border-radius: 5px;
+    font-size: 1rem;
+    border: 2px solid rgb(230, 169, 109);
+    outline: none;
+    font-family: 'Arial', sans-serif;
+    padding: 11px 20px;
+    transition: border-color 0.2s ease;
+}
+
+.inputField:focus {
+    border-color: rgb(178, 95, 11);
+}
+
+.btn-add {
+    font-size: 16px;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-weight: 500;
+    background: #5c72d5;
+    cursor: pointer;
+    color: white;
+    border: none;
+    transition: background 0.3s ease;
+}
+
+.btn-add:hover {
+    background: #5568d3;
+}
+
+.taskList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background: #f9f9f9c3;
+    border-left: 4px solid #667eea;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.task-item:hover {
+    background: #bef2f6d7;
+}
+
+.task-item.completed .task-text{
+    text-decoration: line-through;
+    color: #878787;
+}
+
+.task-text {
+    flex: 1;
+    font-size: 1.1rem;
+    word-break: break-word;
+    color: #333333;
+}
+
+.task-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.done-btn {
+    background: #51cf66;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    margin-left: 3rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.done-btn:hover {
+    background: #40c057;
+}
+
+.input-section {
+    margin-bottom: 1.5rem;
+}
+
+.delete-btn {
+    background: #ff6b6b;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    margin-left: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: #ee5a52;
+}
+
+.empty-message {
+    text-align: center;
+    color: #7e7979;
+    padding: 40px 20px;
+    font-size: 1.2rem;
+}

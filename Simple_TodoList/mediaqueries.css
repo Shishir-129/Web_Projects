@@ -1,0 +1,36 @@
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .inputField {
+        font-size: 14 px;
+        padding: 9px 18px;
+    }
+
+    .btn-add {
+        font-size: 14px;
+        padding: 9px 18px;
+    }
+
+    .task-text {
+        font-size: 15px;
+    }
+
+    .done-btn, .delete-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .empty-message {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoApp</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mediaqueries.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Todo App</h1>
+        <div class="input-section">
+            <input type="text" id="taskInput" placeholder="What you need to do?" class="inputField">
+            <button onClick="addTask()" class="btn-add">Add Task</button>
+        </div>
+
+        <!-- List where all tasks will appear -->
+         <div class="taskList" id="task-list">
+            <!-- tasks will be added through javaScript -->
+         </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
