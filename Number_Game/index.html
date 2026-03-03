@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script
+      src="https://unpkg.com/react@17/umd/react.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>Vibrant Addition Game</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+      function App() {
+        const levels = {
+          easy: { name: "🌱 Easy", range: 10, multiplier: 1 },
+          medium: { name: "🌿 Medium", range: 20, multiplier: 2 },
+          hard: { name: "🔥 Hard", range: 50, multiplier: 3 },
+          expert: { name: "⚡ Expert", range: 100, multiplier: 5 },
+        };
+
+        const getHighScore = (levelKey) => {
+          return parseInt(localStorage.getItem(`highScore_${levelKey}`)) || 0;
+        };
+
+        const saveHighScore = (levelKey, score) => {
+          localStorage.setItem(`highScore_${levelKey}`, score);
+        };
+
+        const [state, setState] = React.useState({
+          num1: 0,
+          num2: 0,
+          response: "",
+          score: 0,
+          highScore: 0,
+          loading: true,
+          playerName: localStorage.getItem("playerName") || "",
+          nameInput: "",
+          level: localStorage.getItem("gameLevel") || "",
+          levelSelected: localStorage.getItem("gameLevel") ? true : false,
+          gameStarted: localStorage.getItem("playerName") && localStorage.getItem("gameLevel") ? true : false,
+        });
+
+        React.useEffect(() => {
+          fetch("http://127.0.0.1:8000/api/data/")
+            .then((response) => response.json())
+            .then((data) => {
+              setState((prevState) => ({
+                ...prevState,
+                loading: false,
+              }));
+            })
+            .catch((err) => {
+              console.error("Backend unreachable!", err);
+              setState((s) => ({ ...s, loading: false }));
+            });
+        }, []);
+
+        function generateNumbers(levelKey) {
+          const range = levels[levelKey].range;
+          return {
+            num1: Math.ceil(Math.random() * range),
+            num2: Math.ceil(Math.random() * range),
+          };
+        }
+
+        function handleNameInput(event) {
+          setState((prevState) => ({
+            ...prevState,
+            nameInput: event.target.value,
+          }));
+        }
+
+        function handleNameSubmit(event) {
+          event.preventDefault();
+          if (state.nameInput.trim()) {
+            setState((prevState) => ({
+              ...prevState,
+              playerName: prevState.nameInput,
+              nameInput: "",
+              gameStarted: true,
+            }));
+            localStorage.setItem("playerName", state.nameInput);
+          }
+        }
+
+        function handleLevelSelect(selectedLevel) {
+          const newNumbers = generateNumbers(selectedLevel);
+          setState((prevState) => ({
+            ...prevState,
+            level: selectedLevel,
+            levelSelected: true,
+            score: 0,
+            response: "",
+            highScore: getHighScore(selectedLevel),
+            num1: newNumbers.num1,
+            num2: newNumbers.num2,
+          }));
+          localStorage.setItem("gameLevel", selectedLevel);
+        }
+
+        function handleLevelChange(newLevel) {
+          const newNumbers = generateNumbers(newLevel);
+          setState((prevState) => ({
+            ...prevState,
+            level: newLevel,
+            score: 0,
+            response: "",
+            highScore: getHighScore(newLevel),
+            num1: newNumbers.num1,
+            num2: newNumbers.num2,
+          }));
+          localStorage.setItem("gameLevel", newLevel);
+        }
+
+        function updateResponse(event) {
+          setState((prevState) => ({
+            ...prevState,
+            response: event.target.value,
+          }));
+        }
+
+        function inputKeyPress(event) {
+          if (event.key === "Enter") {
+            const answer = parseInt(state.response);
+            const multiplier = levels[state.level].multiplier;
+
+            if (answer === state.num1 + state.num2) {
+              setState((prevState) => {
+                const newScore = prevState.score + multiplier;
+                const newHighScore =
+                  newScore > prevState.highScore
+                    ? newScore
+                    : prevState.highScore;
+
+                if (newScore > prevState.highScore) {
+                  saveHighScore(prevState.level, newHighScore);
+                }
+
+                return {
+                  ...prevState,
+                  score: newScore,
+                  highScore: newHighScore,
+                  response: "",
+                  ...generateNumbers(prevState.level),
+                };
+              });
+            } else {
+              setState((prevState) => ({
+                ...prevState,
+                score: Math.max(0, prevState.score - 1),
+                response: "",
+              }));
+            }
+          }
+        }
+
+        function handleReset() {
+          setState((prevState) => ({
+            ...prevState,
+            playerName: "",
+            score: 0,
+            levelSelected: false,
+            level: "",
+          }));
+          localStorage.removeItem("playerName");
+          localStorage.removeItem("gameLevel");
+        }
+
+        if (state.loading)
+          return <h1 className="loading">Consulting the Forest Spirits...</h1>;
+
+        // Show level selection FIRST
+        if (!state.levelSelected) {
+          return (
+            <div className="card">
+              <h1 style={{ color: "#4e342e", marginBottom: "1rem" }}>
+                Choose Your Path!
+              </h1>
+              <p style={{ color: "#795548", marginBottom: "2rem", fontSize: "1.1rem" }}>
+                Select a difficulty level to begin your adventure
+              </p>
+
+              <div className="level-selection-grid">
+                {Object.entries(levels).map(([key, level]) => (
+                  <div
+                    key={key}
+                    className="level-card"
+                    onClick={() => handleLevelSelect(key)}
+                    style={{
+                      padding: "2rem",
+                      border: "3px solid #8d6e63",
+                      borderRadius: "15px",
+                      backgroundColor: "#fdf5e6",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      textAlign: "center",
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.backgroundColor = "#f9ebdb";
+                      e.currentTarget.style.transform = "translateY(-5px)";
+                      e.currentTarget.style.boxShadow =
+                        "0 10px 20px rgba(0,0,0,0.15)";
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.backgroundColor = "#fdf5e6";
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "none";
+                    }}
+                  >
+                    <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>
+                      {level.name}
+                    </div>
+                    <div style={{ color: "#5d4037", fontSize: "0.9rem" }}>
+                      Numbers: 1-{level.range}
+                    </div>
+                    <div style={{ color: "#5d4037", fontSize: "0.85rem", marginTop: "0.5rem" }}>
+                      Points: {level.multiplier}x per correct
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        }
+
+        // Show name entry SECOND (after level is selected)
+        if (!state.playerName) {
+          return (
+            <div className="card">
+              <h1 style={{ color: "#4e342e", marginBottom: "1rem" }}>
+                {levels[state.level].name} Mode
+              </h1>
+              <p style={{ color: "#795548", marginBottom: "2rem", fontSize: "1.1rem" }}>
+                What's your name, traveler?
+              </p>
+              <form
+                onSubmit={handleNameSubmit}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1rem",
+                }}
+              >
+                <input
+                  type="text"
+                  value={state.nameInput}
+                  onChange={handleNameInput}
+                  placeholder="Enter your name..."
+                  autoFocus
+                  style={{
+                    fontSize: "1.5rem",
+                    padding: "12px",
+                    borderRadius: "10px",
+                    border: "2px solid #8d6e63",
+                  }}
+                />
+                <div style={{display: "flex", gap: "1rem"}}>
+                  <button
+                    type="submit"
+                    style={{
+                      flex: 1,
+                      fontSize: "1.2rem",
+                      padding: "12px 30px",
+                      backgroundColor: "#5d4037",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "10px",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      transition: "background-color 0.3s",
+                    }}
+                    onMouseOver={(e) =>
+                      (e.target.style.backgroundColor = "#3e2723")
+                    }
+                    onMouseOut={(e) =>
+                      (e.target.style.backgroundColor = "#5d4037")
+                    }
+                  >
+                    Start Game
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setState(prevState => ({ ...prevState, levelSelected: false }))}
+                    style={{
+                      fontSize: "1rem",
+                      padding: "12px 20px",
+                      backgroundColor: "#b39ddb",
+                      color: "#512da8",
+                      border: "none",
+                      borderRadius: "10px",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Back
+                  </button>
+                </div>
+              </form>
+            </div>
+          );
+        }
+
+        return (
+          <div className="card">
+            <div className="player-tag">✨ Traveler: {state.playerName} ✨</div>
+
+            <div className="level-display">
+              Current Level: {levels[state.level].name}
+            </div>
+
+            <div className="problem">
+              {state.num1} + {state.num2}
+            </div>
+
+            <input
+              autoFocus
+              value={state.response}
+              onChange={updateResponse}
+              onKeyPress={inputKeyPress}
+              placeholder="?"
+            />
+
+            <div className="stats-container">
+              <div className="score">Stars: {state.score} ⭐️</div>
+              <div className="high-score">
+                {levels[state.level].name} Record: {state.highScore} 🏆
+              </div>
+            </div>
+
+            <button
+              onClick={() => setState(prevState => ({ ...prevState, playerName: "", score: 0 }))}
+              style={{
+                marginTop: "1.5rem",
+                padding: "8px 20px",
+                fontSize: "0.9rem",
+                backgroundColor: "#b39ddb",
+                color: "#512da8",
+                border: "none",
+                borderRadius: "20px",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+            >
+              Change Name
+            </button>
+
+            <button
+              onClick={handleReset}
+              style={{
+                marginTop: "0.5rem",
+                padding: "8px 20px",
+                fontSize: "0.9rem",
+                backgroundColor: "#e0b5ff",
+                color: "#512da8",
+                border: "none",
+                borderRadius: "20px",
+                cursor: "pointer",
+                fontWeight: "bold",
+                marginLeft: "20px",
+              }}
+            >
+              Change Level
+            </button>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<App />, document.querySelector("#app"));
+    </script>
+  </body>
+</html>

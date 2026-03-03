@@ -1,0 +1,243 @@
+@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Patrick Hand", cursive;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  overflow: hidden;
+
+  /* Ghibli Background Image */
+  background-image: url('number_game_background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  filter: brightness(0.9) contrast(1.1) saturate(1.2);
+}
+
+.card { 
+    /* 1. Size & Presence */
+    min-width: 450px;
+    padding: 4rem; 
+    
+    /* 2. Magical Texture & Color */
+    background: #fffef0; /* Warm Parchment */
+    background-image: radial-gradient(#fffef0 70%, #f7f1d5 100%); /* Subtle glow */
+    
+    /* 3. The "Ghibli" Shape */
+    border-radius: 60px 25px 70px 30px / 30px 60px 30px 70px; /* Very organic, non-uniform */
+    border: 6px solid #5d4037;
+    
+    /* 4. Depth Effects */
+    box-shadow: 
+        0 25px 60px rgba(0,0,0,0.3),   /* Main Shadow */
+        inset 0 0 40px rgba(139, 69, 19, 0.1); /* Inner glow for aged paper feel */
+    
+    backdrop-filter: blur(10px);
+    text-align: center;
+    position: relative;
+    
+    /* 5. Entrance Animation */
+    animation: floatingEffect 5s ease-in-out infinite, fadeIn 1s ease-out;
+}
+
+/* Enhanced Floating Decorations */
+.card::before {
+    content: '🍃'; /* Forest Leaf */
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    font-size: 2.5rem;
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2));
+}
+
+.card::after {
+    content: '✨'; /* Magic Sparkle */
+    position: absolute;
+    bottom: -15px;
+    right: 20px;
+    font-size: 2rem;
+    animation: sparkle 3s infinite;
+}
+
+/* Animations */
+@keyframes floatingEffect {
+    0%, 100% { transform: translateY(0) rotate(-0.5deg); }
+    50% { transform: translateY(-15px) rotate(0.5deg); }
+}
+
+@keyframes sparkle {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.player-tag {
+  font-size: 1.2rem;
+  color: #2e7d32;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.problem {
+  font-size: 4.5rem;
+  color: #4e342e;
+  margin-bottom: 27px;
+  text-shadow:
+    0 0 15px rgba(255, 255, 255, 0.8),
+    2px 2px 0px #ffe0b2;
+  animation: pulse 3s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+}
+
+input {
+  font-family: "Patrick Hand", cursive;
+  font-size: 3rem;
+  padding: 15px;
+  width: 120px;
+  background: #fdf5e6;
+  border: 3px dashed #8d6e63;
+  border-radius: 15px;
+  color: #5d4037;
+  outline: none;
+  transition: transform 0.2s;
+}
+
+input:focus {
+  transform: scale(1.1);
+  border-style: solid;
+  background: white;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 2.5rem;
+    gap: 20px;
+}
+
+.score, .high-score {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    min-width: 120px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.level-display {
+    font-size: 1.1rem;
+    color: #5d4037;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.level-selector {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.level-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-family: "Patrick Hand", cursive;
+    border: 2px solid #8d6e63;
+    background: #fdf5e6;
+    color: #5d4037;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.level-btn:hover {
+    background: #f9ebdb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.level-btn.active {
+    background: #b39ddb;
+    color: #512da8;
+    border-color: #b39ddb;
+    box-shadow: 0 4px 15px rgba(179, 157, 219, 0.4);
+    animation: pulse 0.3s ease;
+}
+
+.score {
+    background: #ffe0b2; /* Warm Sun color */
+    color: #795548;
+    border: 2px solid #ffb74d;
+}
+
+.high-score {
+    background: #d1c4e9; /* Mystical Purple color */
+    color: #512da8;
+    border: 2px solid #b39ddb;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 5px #b39ddb; }
+    to { box-shadow: 0 0 20px #b39ddb; }
+}
+
+.loading {
+    font-family: "Patrick Hand", cursive;
+    color: #4e342e;
+    text-align: center;
+    font-size: 2rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.level-selection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.level-card {
+    transition: all 0.3s ease;
+}
