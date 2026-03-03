@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tarnished Quest Log</title>
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="user-bar">
+            <span>Greetings, {{ user.username }}</span>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn-logout">Leave the Grace</button>
+            </form>
+        </div>
+
+        <div class="container">
+            <h1>⚜️ QUEST LOG ⚜️</h1>
+            <form method="POST" class="add-form">
+                {% csrf_token %}
+                <input type="text" name="title" placeholder="Seek new challenges, Tarnished..." required>
+                <button type="submit" class="btn-add">+</button>
+            </form>
+
+            <ul>
+                {% for task in tasks %}
+                <li>
+                    <span class="{% if task.completed %}completed{% endif %}">{{ task.title }}</span>
+                    <div class="actions">
+                        <a href="{% url 'toggle' task.id %}"><button class="btn-icon">✅</button></a>
+                        <a href="{% url 'delete' task.id %}"><button class="btn-icon">🔥</button></a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

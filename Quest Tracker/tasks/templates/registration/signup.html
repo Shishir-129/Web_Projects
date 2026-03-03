@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rise, Tarnished</title>
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="container" style="margin-top: 50px;">
+            <h1>✨ JOIN THE QUEST ✨</h1>
+            <form method="post" class="login-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn-add signup">
+                    COMMENCE JOURNEY
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 15px;">
+                <a href="{% url 'login' %}" style="color: #ffbd3a;">Already have Grace? Login here.</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

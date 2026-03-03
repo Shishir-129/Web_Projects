@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Identify Yourself, Tarnished</title>
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="container" style="margin-top: 50px;">
+            <h1>⚔️ IDENTIFY YOURSELF ⚔️</h1>
+            <p style="text-align: center; color: #c2b280; font-style: italic;">"Only those of Grace may record their quests."</p>
+            
+            <form method="post" class="login-form">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label>Username</label><br>
+                    {{ form.username }}
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label><br>
+                    {{ form.password }}
+                </div>
+
+                <button type="submit" class="btn-add" style="width: 100%; margin-top: 20px; border: 3px solid #ffbd3a; border-radius: 10px;">
+                    ENTER THE LANDS BETWEEN
+                </button>
+
+                <p style="text-align: center; margin-top: 15px;">
+                    <a href="{% url 'signup' %}" style="color: #ffbd3a;">New Tarnished? Sign up here.</a>
+                </p>
+            </form>
+
+            {% if form.errors %}
+                <p style="color: #ff3a3a; text-align: center; margin-top: 15px;">❌ Invalid Credentials, Tarnished.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
